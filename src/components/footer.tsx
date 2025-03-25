@@ -11,7 +11,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-8">
           <div className="flex items-center gap-8">
             <Link
-              to="https://linkedin.com"
+              to="https://www.linkedin.com/in/martina-alejandra-reno/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -20,7 +20,7 @@ export function Footer() {
               <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              to="https://wa.me/5491112345678"
+              to="https://wa.me/5491168390473"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
