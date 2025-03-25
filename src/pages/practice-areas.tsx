@@ -135,7 +135,7 @@ export default function PracticeAreasPage({ lang }: { lang: string }) {
                 descriptionEn:
                   "Reach out through WhatsApp or Instagram. Share your situation briefly, and I'll guide you on whether a consultation would be beneficial for your case.",
                 descriptionEs:
-                  "Contáctame por WhatsApp o Instagram. Cuéntame brevemente tu situación y te orientaré sobre si una consulta sería beneficiosa para tu caso.",
+                  "Contactame por WhatsApp o Instagram. Contame brevemente tu situación y te orientaré sobre si una consulta sería beneficiosa para tu caso.",
               },
               {
                 icon: Video,

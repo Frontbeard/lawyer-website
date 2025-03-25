@@ -103,7 +103,7 @@ export default function AboutPage({ lang }: { lang: string }) {
               {lang === "en" ? (
                 <>
                   <p className="text-muted-foreground text-base md:text-lg">
-                    I am Martina Reno, a lawyer graduated from the University of Buenos Aires (UBA) and registered in
+                    I am Martina Renó, a lawyer graduated from the University of Buenos Aires (UBA) and registered in
                     the Autonomous City of Buenos Aires (CABA). I specialize in Civil and Criminal Law, providing
                     comprehensive advice and legal representation in cases of civil liability, contracts, family law,
                     successions, as well as defense and assistance in criminal proceedings.
@@ -125,7 +125,7 @@ export default function AboutPage({ lang }: { lang: string }) {
               ) : (
                 <>
                   <p className="text-muted-foreground text-base md:text-lg">
-                    Soy Martina Reno, abogada egresada de la Universidad de Buenos Aires (UBA) y matriculada en la
+                    Soy Martina Renó, abogada egresada de la Universidad de Buenos Aires (UBA) y matriculada en la
                     Ciudad Autónoma de Buenos Aires (CABA). Me especializo en Derecho Civil y Penal, brindando
                     asesoramiento integral y representación legal en casos de responsabilidad civil, contratos, derecho
                     de familia, sucesiones, así como en defensa y asistencia en procesos penales.

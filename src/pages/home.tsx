@@ -89,7 +89,7 @@ export default function HomePage({ lang }: { lang: string }) {
               <div className="relative aspect-[3/4] md:aspect-[4/5] h-[400px] md:h-[450px] mx-auto md:mx-0 shadow-xl rounded-2xl md:rounded-3xl overflow-hidden transform transition-transform duration-500 hover:scale-[1.02]">
                 <img
                   src={aboutdr || "/placeholder.svg"}
-                  alt="Martina Reno - Abogada"
+                  alt="Martina Renó - Abogada"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
@@ -331,7 +331,7 @@ export default function HomePage({ lang }: { lang: string }) {
                   descriptionEn:
                     "Reach out through WhatsApp or Instagram. Share your situation briefly, and I'll guide you on whether a consultation would be beneficial for your case.",
                   descriptionEs:
-                    "Contáctame por WhatsApp o Instagram. Cuéntame brevemente tu situación y te orientaré sobre si una consulta sería beneficiosa para tu caso.",
+                    "Contactame por WhatsApp o Instagram. Contame brevemente tu situación y te orientaré sobre si una consulta sería beneficiosa para tu caso.",
                 },
                 {
                   icon: Video,
@@ -402,8 +402,8 @@ export default function HomePage({ lang }: { lang: string }) {
             <div className="grid gap-4 md:gap-6">
               {[
                 {
-                  nameEn: "Miguel Benitez",
-                  nameEs: "Miguel Benitez",
+                  nameEn: "Miguel Benítez",
+                  nameEs: "Miguel Benítez",
                   roleEn: "Succession case",
                   roleEs: "Caso de sucesión",
                   contentEn:
