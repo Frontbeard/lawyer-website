@@ -1,5 +1,5 @@
 import type React from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Home, User, Scale, Mail, Globe, Moon, Sun, Calendar, Menu, X } from "lucide-react"
 import { Button } from "./ui/button"
 import { useTheme } from "./theme-provider"
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 
 export function FloatingNavbar({ lang }: { lang?: string }) {
   const location = useLocation()
+  const navigate = useNavigate()
   const pathname = location.pathname
   const { setTheme, theme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -40,19 +41,28 @@ export function FloatingNavbar({ lang }: { lang?: string }) {
   }
 
   const toggleLanguage = () => {
-    const newLang = currentLang === "en" ? "es" : "en"
-    let newPath = pathname
+    // Determinar la nueva ruta basada en el idioma actual
+    let newPath = ""
 
     if (currentLang === "en") {
-      // Remove /en from the path
+      // Cambiar de inglés a español
       newPath = pathname.replace(/^\/en/, "")
       if (newPath === "") newPath = "/"
     } else {
-      // Add /en to the path
-      newPath = "/en" + (pathname === "/" ? "" : pathname)
+      // Cambiar de español a inglés
+      if (pathname === "/") {
+        newPath = "/en"
+      } else {
+        newPath = "/en" + pathname
+      }
     }
 
-    window.location.href = newPath
+    console.log(`Cambiando idioma de ${currentLang} a ${currentLang === "en" ? "es" : "en"}`)
+    console.log(`Ruta actual: ${pathname}`)
+    console.log(`Nueva ruta: ${newPath}`)
+
+    // Usar navigate en lugar de window.location para evitar recargas completas
+    navigate(newPath)
   }
 
   const toggleTheme = () => {
