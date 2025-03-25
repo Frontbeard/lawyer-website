@@ -143,7 +143,7 @@ export default function HomePage({ lang }: { lang: string }) {
                 {
                   icon: FileText,
                   titleEn: "Labor Law",
-                  titleEs: "Derecho Laboral",
+                  titleEs: "Derecho laboral",
                   descriptionEn:
                     "Representation in wrongful termination, labor rights, and employment contract disputes.",
                   descriptionEs:
