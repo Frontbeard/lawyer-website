@@ -1,3 +1,5 @@
+"use client"
+
 import type React from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Home, User, Scale, Mail, Globe, Moon, Sun, Calendar, Menu, X } from "lucide-react"
@@ -57,10 +59,6 @@ export function FloatingNavbar({ lang }: { lang?: string }) {
       }
     }
 
-    console.log(`Cambiando idioma de ${currentLang} a ${currentLang === "en" ? "es" : "en"}`)
-    console.log(`Ruta actual: ${pathname}`)
-    console.log(`Nueva ruta: ${newPath}`)
-
     // Usar navigate en lugar de window.location para evitar recargas completas
     navigate(newPath)
   }
@@ -75,24 +73,28 @@ export function FloatingNavbar({ lang }: { lang?: string }) {
       labelEn: "Home",
       labelEs: "Inicio",
       icon: Home,
+      minWidth: "80px", // Ancho mínimo para este elemento
     },
     {
       to: currentLang === "en" ? "/en/about" : "/about",
       labelEn: "About",
       labelEs: "Sobre mí",
       icon: User,
+      minWidth: "100px", // Ancho mínimo para este elemento
     },
     {
       to: currentLang === "en" ? "/en/practice-areas" : "/practice-areas",
       labelEn: "Practice areas",
       labelEs: "Áreas",
       icon: Scale,
+      minWidth: "120px", // Ancho mínimo para este elemento
     },
     {
       to: currentLang === "en" ? "/en/contact" : "/contact",
       labelEn: "Contact",
       labelEs: "Contacto",
       icon: Mail,
+      minWidth: "90px", // Ancho mínimo para este elemento
     },
   ]
 
@@ -110,7 +112,7 @@ export function FloatingNavbar({ lang }: { lang?: string }) {
                 key={item.to}
                 to={item.to}
                 onClick={item.to === (currentLang === "en" ? "/en" : "/") ? handleHomeClick : undefined}
-                className={`px-4 py-2 rounded-full transition-colors text-sm font-medium
+                className={`px-4 py-2 rounded-full transition-colors text-sm font-medium flex justify-center items-center
                   ${
                     pathname === item.to
                       ? "bg-black text-white dark:bg-primary dark:text-primary-foreground"
@@ -121,6 +123,8 @@ export function FloatingNavbar({ lang }: { lang?: string }) {
                   fontSize: "0.875rem",
                   fontWeight: 500,
                   letterSpacing: "-0.01em",
+                  minWidth: item.minWidth,
+                  textAlign: "center",
                 }}
               >
                 {currentLang === "en" ? item.labelEn : item.labelEs}
@@ -134,9 +138,13 @@ export function FloatingNavbar({ lang }: { lang?: string }) {
                 fontSize: "0.875rem",
                 fontWeight: 500,
                 letterSpacing: "-0.01em",
+                minWidth: "180px", // Ancho fijo para el botón de consulta
               }}
             >
-              <Link to={currentLang === "en" ? "/en/contact" : "/contact"} className="flex items-center gap-2">
+              <Link
+                to={currentLang === "en" ? "/en/contact" : "/contact"}
+                className="flex items-center justify-center gap-2"
+              >
                 <Calendar className="w-4 h-4" />
                 <span>{currentLang === "en" ? "Book consultation" : "Agendar consulta"}</span>
               </Link>
