@@ -1,12 +1,12 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "../components/ui/card"
-import { GraduationCap, Award, BookOpen, Globe } from "lucide-react"
-import { ImageViewerModal } from "../components/image-viewer-modal"
+import { GraduationCap, Award, BookOpen, Globe, ExternalLink } from "lucide-react"
 import doctora from "../assets/images/doctora.jpg"
 
 export default function AboutPage({ lang }: { lang: string }) {
   const [isMobile, setIsMobile] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -62,11 +62,8 @@ export default function AboutPage({ lang }: { lang: string }) {
                 </CardContent>
               </Card>
 
-              {/* Second card - Updated with EF SET certificate */}
-              <Card
-                className="group hover:shadow-lg transition-all rounded-2xl w-full cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
-              >
+              {/* Second card - Updated with EF SET certificate link */}
+              <Card className="group hover:shadow-lg transition-all rounded-2xl w-full">
                 <CardContent className="p-4">
                   <div className="flex gap-4">
                     <div className="p-2 rounded-xl bg-primary/10 w-10 h-10 flex items-center justify-center shrink-0">
@@ -80,9 +77,15 @@ export default function AboutPage({ lang }: { lang: string }) {
                       <p className="text-sm text-muted-foreground">
                         {lang === "en" ? "EF SET Certificate" : "Certificado EF SET"}
                       </p>
-                      <p className="text-sm text-primary hover:underline">
+                      <a
+                        href="https://cert.efset.org/etSUgf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline flex items-center gap-1 mt-1"
+                      >
                         {lang === "en" ? "View certificate" : "Ver certificado"}
-                      </p>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
                     </div>
                   </div>
                 </CardContent>
@@ -213,14 +216,6 @@ export default function AboutPage({ lang }: { lang: string }) {
           </div>
         </div>
       </div>
-
-      {/* Certificate Modal - Updated to use ImageViewerModal */}
-      <ImageViewerModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        imageUrl="/images/certificate.jpg"
-        altText="EF SET English Certificate - C1 Advanced"
-      />
     </div>
   )
 }
