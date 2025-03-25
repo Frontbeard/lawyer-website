@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 import App from "./App.tsx"
 import "./index.css"
 import { ThemeProvider } from "./components/theme-provider.tsx"
+import { Analytics } from "@vercel/analytics/react"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <App />
       </ThemeProvider>
+      <Analytics />
     </BrowserRouter>
   </React.StrictMode>,
 )
