@@ -1,0 +1,185 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 95%; /* #f0f2f4 */
+    --foreground: 220 30% 10%;
+
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 220 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 10%;
+
+    --primary: 220 57% 85%; /* #c0d0ef */
+    --primary-foreground: 220 30% 10%;
+
+    --secondary: 220 20% 95%;
+    --secondary-foreground: 220 30% 10%;
+
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 10% 40%;
+
+    --accent: 220 57% 85%;
+    --accent-foreground: 220 30% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 20% 90%;
+    --input: 220 20% 90%;
+    --ring: 220 57% 85%;
+
+    --radius: 1rem;
+
+    /* Section gradients - Light Mode */
+    --section-gradient-1: 220 57% 85%; /* #c0d0ef */
+    --section-gradient-2: 220 20% 95%; /* #f0f2f4 */
+  }
+
+  .dark {
+    --background: 212 50% 19%; /* #17304a */
+    --foreground: 0 0% 95%;
+
+    --card: 212 50% 19%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 212 50% 19%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 215 39% 31%; /* #304a6e */
+    --primary-foreground: 0 0% 95%;
+
+    --secondary: 212 50% 19%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 212 50% 19%;
+    --muted-foreground: 215 39% 70%;
+
+    --accent: 215 39% 31%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 215 39% 31%;
+    --input: 215 39% 31%;
+    --ring: 215 39% 31%;
+
+    /* Section gradients - Dark Mode */
+    --section-gradient-1: 215 39% 31%; /* #304a6e */
+    --section-gradient-2: 212 50% 19%; /* #17304a */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    font-size: 16px;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.025em;
+    font-weight: 600;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 0.5s ease-out forwards;
+  }
+
+  .animate-fade-down {
+    animation: fade-down 0.5s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+
+  .animate-scale {
+    animation: scale 0.3s ease-out forwards;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-down {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale {
+    from {
+      transform: scale(0.95);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .decoration-line {
+    @apply absolute w-24 h-1 bg-primary/20 rounded-full;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg dark:bg-[#17304a]/80 dark:border-[#304a6e]/20;
+  }
+
+  .glass-card-dark {
+    @apply bg-black/80 backdrop-blur-md border border-[#304a6e]/20 shadow-lg;
+  }
+
+  .section-gradient {
+    @apply bg-gradient-to-b from-[#c0d0ef]/50 to-[#f0f2f4] dark:from-[#304a6e]/50 dark:to-[#17304a];
+  }
+}
+
