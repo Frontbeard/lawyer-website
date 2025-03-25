@@ -25,33 +25,30 @@ export default function HomePage({ lang }: { lang: string }) {
         {/* White shadow connector */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
 
-        {/* Content */}
-        <div className="container relative z-10 grid md:grid-cols-2 gap-8 items-center px-4 sm:px-6">
-          <div className="text-white space-y-4 md:space-y-6 text-center md:text-left">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl animate-fade-down">
+        {/* Content - Centrado y sin formulario */}
+        <div className="container relative z-10 px-4 sm:px-6">
+          <div className="text-white space-y-3 md:space-y-4 text-center max-w-2xl mx-auto">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tighter animate-fade-down">
               {lang === "en" ? "Legal excellence" : "Excelencia legal"}
             </h1>
             <h2
-              className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl animate-fade-down"
+              className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter animate-fade-down -mt-1 md:-mt-2"
               style={{ animationDelay: "0.2s" }}
             >
               {lang === "en" ? "& professional service" : "y servicio profesional"}
             </h2>
             <p
-              className="text-base md:text-lg lg:text-xl text-gray-200 animate-fade-up max-w-[540px]"
+              className="text-sm md:text-base lg:text-lg text-gray-200 animate-fade-up max-w-[540px] mx-auto"
               style={{ animationDelay: "0.3s" }}
             >
               {lang === "en"
                 ? "Specialized legal services tailored to your needs. Professional, efficient, and reliable counsel."
                 : "Servicios legales especializados adaptados a sus necesidades. Asesoramiento profesional, eficiente y confiable."}
             </p>
-            <div
-              className="flex gap-3 md:gap-4 pt-4 justify-center md:justify-start animate-fade-up"
-              style={{ animationDelay: "0.4s" }}
-            >
+            <div className="flex gap-3 md:gap-4 pt-4 justify-center animate-fade-up" style={{ animationDelay: "0.4s" }}>
               <Button
                 size="lg"
-                className="text-base relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg group bg-black hover:bg-gray-800 text-white"
+                className="text-sm md:text-base relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg group bg-black hover:bg-gray-800 text-white"
               >
                 <Link to={lang === "en" ? "/en/contact" : "/contact"}>
                   <span className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
@@ -61,16 +58,13 @@ export default function HomePage({ lang }: { lang: string }) {
               <Button
                 variant="outline"
                 size="lg"
-                className="text-base bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="text-sm md:text-base bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <Link to={lang === "en" ? "/en/practice-areas" : "/practice-areas"}>
                   {lang === "en" ? "Learn more" : "Saber más"}
                 </Link>
               </Button>
             </div>
-          </div>
-          <div className="hidden md:block max-w-md mx-auto w-full">
-            <QuickContactForm lang={lang} />
           </div>
         </div>
       </section>

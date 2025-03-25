@@ -7,11 +7,13 @@ import HomePage from "./pages/home"
 import AboutPage from "./pages/about"
 import PracticeAreasPage from "./pages/practice-areas"
 import ContactPage from "./pages/contact"
+import { ScrollToTop } from "./components/scroll-to-top"
 
 function App() {
   return (
     <>
       <Navbar />
+      <ScrollToTop />
       <main className="min-h-screen pt-[60px] md:pt-0">
         <Routes>
           <Route path="/" element={<HomePage lang="es" />} />

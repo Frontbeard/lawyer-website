@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "../components/ui/card"
 import { GraduationCap, Award, BookOpen, Globe, ExternalLink } from "lucide-react"
@@ -26,13 +28,15 @@ export default function AboutPage({ lang }: { lang: string }) {
       <div className="grid gap-8 md:gap-12 lg:grid-cols-5 max-w-5xl mx-auto">
         {/* Left column - Image and Education */}
         <div className="lg:col-span-2">
-          {/* Image */}
-          <div className="relative aspect-[3/4] lg:aspect-[3/4] max-w-sm mx-auto lg:mx-0 h-[575px]">
-            <img
-              src={doctora || "/placeholder.svg"}
-              alt="Martina Renó - Graduation"
-              className="w-full h-full object-cover rounded-2xl md:rounded-3xl"
-            />
+          {/* Image - Corregido para mejor responsive */}
+          <div className="relative mx-auto lg:mx-0 max-w-sm w-full">
+            <div className="aspect-[3/4] w-full">
+              <img
+                src={doctora || "/placeholder.svg"}
+                alt="Martina Renó - Graduation"
+                className="w-full h-full object-cover rounded-2xl md:rounded-3xl"
+              />
+            </div>
           </div>
 
           {/* Education */}
