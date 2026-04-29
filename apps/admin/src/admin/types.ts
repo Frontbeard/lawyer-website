@@ -21,8 +21,16 @@ export type DemandModel = {
   jurisdiction: Jurisdiction
   key: DemandModelKey
   title: string
-  content: string
+  content: string // puede contener placeholders como {{FIELD_001}}
   updatedAt: string // ISO
+  fields?: TemplateField[]
+}
+
+export type TemplateField = {
+  id: string // e.g. FIELD_001
+  label: string
+  defaultValue: string
+  input: "text" | "textarea"
 }
 
 export type DemandTemplateState = {

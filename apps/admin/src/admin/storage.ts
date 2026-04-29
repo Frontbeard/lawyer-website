@@ -49,3 +49,19 @@ export function updateModelContent(
   return next
 }
 
+export function updateModelFields(
+  state: DemandTemplateState,
+  jurisdiction: Jurisdiction,
+  modelId: string,
+  fields: DemandModel["fields"],
+): DemandTemplateState {
+  const updatedAt = new Date().toISOString()
+  const nextModels = state.models.map((m) => {
+    if (m.jurisdiction !== jurisdiction || m.id !== modelId) return m
+    return { ...m, fields, updatedAt }
+  })
+  const next = { ...state, models: nextModels }
+  saveState(next)
+  return next
+}
+

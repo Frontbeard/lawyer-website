@@ -6,8 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Textarea } from "../components/ui/textarea"
 import type { Jurisdiction, LawyerProfile } from "../admin/types"
-import { loadState, updateModelContent, upsertLawyer } from "../admin/storage"
-import { exportModelToDocx } from "../admin/docx"
+import { loadState, updateModelContent, updateModelFields, upsertLawyer } from "../admin/storage"
+import { exportModelToDocx, renderFields, renderTemplate } from "../admin/docx"
 import { logout } from "../admin/auth"
 
 function formatUpdatedAt(iso: string) {
@@ -33,15 +33,27 @@ export default function DashboardPage() {
   const lawyer = state.lawyers[jurisdiction]
   const [draftTitle, setDraftTitle] = useState(selected?.title ?? "")
   const [draftContent, setDraftContent] = useState(selected?.content ?? "")
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({})
 
   useEffect(() => {
     setDraftTitle(selected?.title ?? "")
     setDraftContent(selected?.content ?? "")
+    const nextValues: Record<string, string> = {}
+    for (const f of selected?.fields ?? []) nextValues[f.id] = f.defaultValue
+    setFieldValues(nextValues)
   }, [selected?.id, jurisdiction])
 
   const onSave = () => {
     if (!selected) return
-    const next = updateModelContent(state, jurisdiction, selected.id, { title: draftTitle, content: draftContent })
+    const nextFields =
+      selected.fields?.map((f) => ({
+        ...f,
+        defaultValue: fieldValues[f.id] ?? "",
+        label: f.label,
+      })) ?? undefined
+
+    let next = updateModelContent(state, jurisdiction, selected.id, { title: draftTitle, content: draftContent })
+    if (selected.fields) next = updateModelFields(next, jurisdiction, selected.id, nextFields)
     setState(next)
     toast.success("Modelo guardado.")
   }
@@ -49,7 +61,8 @@ export default function DashboardPage() {
   const onExport = async () => {
     if (!selected) return
     try {
-      await exportModelToDocx({ model: selected, jurisdiction, lawyer })
+      const contentWithFields = selected.fields ? renderFields(selected.content, fieldValues) : selected.content
+      await exportModelToDocx({ model: { ...selected, content: contentWithFields }, jurisdiction, lawyer })
       toast.success("Documento exportado.")
     } catch (e) {
       console.error(e)
@@ -180,22 +193,58 @@ export default function DashboardPage() {
                       <Input value={draftTitle} onChange={(e) => setDraftTitle(e.target.value)} />
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Contenido</label>
-                      <Textarea
-                        value={draftContent}
-                        onChange={(e) => setDraftContent(e.target.value)}
-                        className="min-h-[360px]"
-                      />
-                      <p className="text-xs text-muted-foreground">
-                        Variables: <code className="font-mono">{"{{JURISDICCION}}"}</code>,{" "}
-                        <code className="font-mono">{"{{ABOGADO_NOMBRE}}"}</code>,{" "}
-                        <code className="font-mono">{"{{ABOGADO_MATRICULA}}"}</code>,{" "}
-                        <code className="font-mono">{"{{ABOGADO_DIRECCION}}"}</code>,{" "}
-                        <code className="font-mono">{"{{ABOGADO_EMAIL}}"}</code>,{" "}
-                        <code className="font-mono">{"{{ABOGADO_TELEFONO}}"}</code>.
-                      </p>
-                    </div>
+                    {selected.fields?.length ? (
+                      <div className="space-y-3">
+                        <label className="text-sm font-medium">Campos para completar</label>
+                        <div className="grid gap-3">
+                          {selected.fields.map((f) => (
+                            <div key={f.id} className="space-y-1">
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="text-xs text-muted-foreground font-mono">{`{{${f.id}}}`}</span>
+                              </div>
+                              {f.input === "textarea" ? (
+                                <Textarea
+                                  value={fieldValues[f.id] ?? ""}
+                                  onChange={(e) => setFieldValues((prev) => ({ ...prev, [f.id]: e.target.value }))}
+                                  className="min-h-[120px]"
+                                />
+                              ) : (
+                                <Input
+                                  value={fieldValues[f.id] ?? ""}
+                                  onChange={(e) => setFieldValues((prev) => ({ ...prev, [f.id]: e.target.value }))}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-2 pt-2">
+                          <label className="text-sm font-medium">Vista previa (solo lectura)</label>
+                          <Textarea
+                            value={renderTemplate(renderFields(selected.content, fieldValues), jurisdiction, lawyer)}
+                            readOnly
+                            className="min-h-[240px]"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Contenido</label>
+                        <Textarea
+                          value={draftContent}
+                          onChange={(e) => setDraftContent(e.target.value)}
+                          className="min-h-[360px]"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Variables: <code className="font-mono">{"{{JURISDICCION}}"}</code>,{" "}
+                          <code className="font-mono">{"{{ABOGADO_NOMBRE}}"}</code>,{" "}
+                          <code className="font-mono">{"{{ABOGADO_MATRICULA}}"}</code>,{" "}
+                          <code className="font-mono">{"{{ABOGADO_DIRECCION}}"}</code>,{" "}
+                          <code className="font-mono">{"{{ABOGADO_EMAIL}}"}</code>,{" "}
+                          <code className="font-mono">{"{{ABOGADO_TELEFONO}}"}</code>.
+                        </p>
+                      </div>
+                    )}
 
                     <div className="flex flex-wrap gap-2">
                       <Button className="bg-black hover:bg-black/90" onClick={onSave}>

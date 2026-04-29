@@ -1,4 +1,5 @@
 import type { DemandModel, DemandTemplateState } from "./types"
+import { rechazoEnfProfNuevoBaremo } from "./templates/rechazo-enf-prof-nuevo-baremo"
 
 function nowIso() {
   return new Date().toISOString()
@@ -42,6 +43,22 @@ function model(jurisdiction: DemandModel["jurisdiction"], key: DemandModel["key"
   }
 }
 
+function modelWithTemplate(
+  jurisdiction: DemandModel["jurisdiction"],
+  key: DemandModel["key"],
+  title: string,
+): DemandModel {
+  return {
+    id: `${jurisdiction}:${key}`,
+    jurisdiction,
+    key,
+    title,
+    content: rechazoEnfProfNuevoBaremo.content,
+    fields: rechazoEnfProfNuevoBaremo.fields,
+    updatedAt: nowIso(),
+  }
+}
+
 export function seedState(): DemandTemplateState {
   return {
     version: 1,
@@ -64,13 +81,13 @@ export function seedState(): DemandTemplateState {
     models: [
       model("CABA", "accidente_trabajo", "Accidente de trabajo"),
       model("CABA", "enfermedad_profesional", "Enfermedad profesional"),
-      model("CABA", "rechazo_enfermedad_profesional", "Rechazo por enfermedad profesional"),
+      modelWithTemplate("CABA", "rechazo_enfermedad_profesional", "Rechazo por enfermedad profesional"),
       model("CABA", "rechazo_accidente_trabajo", "Rechazo de accidente de trabajo"),
       model("CABA", "accidente_trabajo_lesion_ocular", "Accidente de trabajo (lesión ocular)"),
       model("CABA", "queratoconjuntivitis", "Queratoconjuntivitis (enfermedad profesional)"),
       model("PBA", "accidente_trabajo", "Accidente de trabajo"),
       model("PBA", "enfermedad_profesional", "Enfermedad profesional"),
-      model("PBA", "rechazo_enfermedad_profesional", "Rechazo por enfermedad profesional"),
+      modelWithTemplate("PBA", "rechazo_enfermedad_profesional", "Rechazo por enfermedad profesional"),
       model("PBA", "rechazo_accidente_trabajo", "Rechazo de accidente de trabajo"),
       model("PBA", "accidente_trabajo_lesion_ocular", "Accidente de trabajo (lesión ocular)"),
       model("PBA", "queratoconjuntivitis", "Queratoconjuntivitis (enfermedad profesional)"),

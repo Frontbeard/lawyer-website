@@ -21,6 +21,15 @@ export function renderTemplate(content: string, jurisdiction: Jurisdiction, lawy
   return out
 }
 
+export function renderFields(content: string, values: Record<string, string>) {
+  let out = content
+  for (const [id, value] of Object.entries(values)) {
+    const token = `{{${id}}}`
+    out = out.split(token).join(value ?? "")
+  }
+  return out
+}
+
 export async function exportModelToDocx(args: { model: DemandModel; jurisdiction: Jurisdiction; lawyer: LawyerProfile }) {
   const rendered = renderTemplate(args.model.content, args.jurisdiction, args.lawyer)
   const lines = rendered.split(/\r?\n/g)
