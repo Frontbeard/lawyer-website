@@ -23,15 +23,18 @@ export default function LoginPage() {
   }, [from, navigate])
 
   return (
-    <div className="container py-16 px-4 sm:px-6">
-      <div className="max-w-xl mx-auto">
+    <div className="min-h-screen section-gradient flex flex-col">
+      <div className="container flex-1 py-16 px-4 sm:px-6 flex flex-col justify-center">
+      <div className="max-w-xl mx-auto w-full animate-fade-in">
         <div className="text-center mb-10">
-          <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl mb-3">Acceso</h1>
+          <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl mb-3 text-foreground">
+            Acceso
+          </h1>
           <p className="text-muted-foreground">Panel de gestión de modelos de demandas</p>
         </div>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="glass-card border-border/60 shadow-lg rounded-2xl overflow-hidden">
+          <CardContent className="p-6 sm:p-8">
             <form
               className="space-y-4"
               onSubmit={(e) => {
@@ -74,7 +77,11 @@ export default function LoginPage() {
                 />
               </div>
 
-              <Button className="w-full bg-black hover:bg-black/90" type="submit" disabled={loading}>
+              <Button
+                className="w-full rounded-full bg-black text-white hover:bg-black/90 dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
+                type="submit"
+                disabled={loading}
+              >
                 {loading ? "Ingresando..." : "Ingresar"}
               </Button>
 
@@ -85,6 +92,7 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
+      </div>
       </div>
     </div>
   )

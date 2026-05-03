@@ -1,97 +1,110 @@
-import type { DemandModel, DemandTemplateState } from "./types"
-import { rechazoEnfProfNuevoBaremo } from "./templates/rechazo-enf-prof-nuevo-baremo"
+import type { DemandModel, DemandTemplateState, Jurisdiction } from "./types"
+import type { LoadedTemplate } from "./templates/_loader"
+import { demandaAdmProvLesionOcularNuevoBaremo } from "./templates/demanda-adm-prov-lesion-ocular-nuevo-baremo"
+import { demandaAdmProvNuevoBaremo } from "./templates/demanda-adm-prov-nuevo-baremo"
+import { demandaAdmRechazoQueratoProvNuevoBaremo } from "./templates/demanda-adm-rechazo-querato-prov-nuevo-baremo"
+import { demandaRechazoAccidenteProvNuevoBaremo } from "./templates/demanda-rechazo-accidente-prov-nuevo-baremo"
+import { demandaAdmAccidenteCabaNuevoBaremo } from "./templates/demanda-adm-accidente-caba-nuevo-baremo"
+import { demandaAdmCabaLesionOcularNuevoBaremo } from "./templates/demanda-adm-caba-lesion-ocular-nuevo-baremo"
+import { demandaAdmRechazoQueratoCabaNuevoBaremo } from "./templates/demanda-adm-rechazo-querato-caba-nuevo-baremo"
+import { demandaRechazoCabaModeloNuevoBaremo } from "./templates/demanda-rechazo-caba-modelo-nuevo-baremo"
+import { demandaRechazoAccidenteCabaNuevoBaremo } from "./templates/demanda-rechazo-accidente-caba-nuevo-baremo"
+import { demandaRechazoProvNuevoBaremo } from "./templates/demanda-rechazo-prov-nuevo-baremo"
 
 function nowIso() {
   return new Date().toISOString()
 }
 
-function baseContent(title: string) {
-  return [
-    title.toUpperCase(),
-    "",
-    "Jurisdicción: {{JURISDICCION}}",
-    "Abogado/a: {{ABOGADO_NOMBRE}}",
-    "{{ABOGADO_MATRICULA}}",
-    "{{ABOGADO_DIRECCION}}",
-    "{{ABOGADO_EMAIL}}",
-    "{{ABOGADO_TELEFONO}}",
-    "",
-    "—",
-    "",
-    "Hechos:",
-    "- (completar)",
-    "",
-    "Derecho:",
-    "- (completar)",
-    "",
-    "Petitorio:",
-    "- (completar)",
-    "",
-    "Firma",
-    "{{ABOGADO_NOMBRE}}",
-  ].join("\n")
-}
-
-function model(jurisdiction: DemandModel["jurisdiction"], key: DemandModel["key"], title: string): DemandModel {
-  return {
-    id: `${jurisdiction}:${key}`,
-    jurisdiction,
-    key,
-    title,
-    content: baseContent(title),
-    updatedAt: nowIso(),
-  }
-}
-
-function modelWithTemplate(
-  jurisdiction: DemandModel["jurisdiction"],
+function model(
+  jurisdiction: Jurisdiction,
   key: DemandModel["key"],
   title: string,
+  template: LoadedTemplate,
 ): DemandModel {
   return {
     id: `${jurisdiction}:${key}`,
     jurisdiction,
     key,
     title,
-    content: rechazoEnfProfNuevoBaremo.content,
-    fields: rechazoEnfProfNuevoBaremo.fields,
+    content: template.content,
+    paragraphs: template.paragraphs,
+    sourceDocxB64: template.sourceDocxB64,
+    fields: template.fields,
+    mergedFieldIds: template.mergedFieldIds,
+    hechosParagraphExportXml: template.hechosParagraphExportXml,
+    pruebaTestimonialParagraphExportXml: template.pruebaTestimonialParagraphExportXml,
     updatedAt: nowIso(),
   }
 }
 
 export function seedState(): DemandTemplateState {
   return {
-    version: 1,
+    version: 28,
     lawyers: {
-      CABA: {
-        name: "Ramiro (CABA)",
-        email: "",
-        phone: "",
-        address: "",
-        enrollment: "",
-      },
-      PBA: {
-        name: "Federico (Provincia de Buenos Aires)",
-        email: "",
-        phone: "",
-        address: "",
-        enrollment: "",
-      },
+      CABA: { name: "Dra. Renó", email: "", phone: "", address: "", enrollment: "" },
+      PBA: { name: "Dra. Renó", email: "", phone: "", address: "", enrollment: "" },
     },
     models: [
-      model("CABA", "accidente_trabajo", "Accidente de trabajo"),
-      model("CABA", "enfermedad_profesional", "Enfermedad profesional"),
-      modelWithTemplate("CABA", "rechazo_enfermedad_profesional", "Rechazo por enfermedad profesional"),
-      model("CABA", "rechazo_accidente_trabajo", "Rechazo de accidente de trabajo"),
-      model("CABA", "accidente_trabajo_lesion_ocular", "Accidente de trabajo (lesión ocular)"),
-      model("CABA", "queratoconjuntivitis", "Queratoconjuntivitis (enfermedad profesional)"),
-      model("PBA", "accidente_trabajo", "Accidente de trabajo"),
-      model("PBA", "enfermedad_profesional", "Enfermedad profesional"),
-      modelWithTemplate("PBA", "rechazo_enfermedad_profesional", "Rechazo por enfermedad profesional"),
-      model("PBA", "rechazo_accidente_trabajo", "Rechazo de accidente de trabajo"),
-      model("PBA", "accidente_trabajo_lesion_ocular", "Accidente de trabajo (lesión ocular)"),
-      model("PBA", "queratoconjuntivitis", "Queratoconjuntivitis (enfermedad profesional)"),
+      model(
+        "PBA",
+        "accidente_trabajo",
+        "Demanda administrativa — accidente de trabajo (Buenos Aires)",
+        demandaAdmProvNuevoBaremo,
+      ),
+      model(
+        "PBA",
+        "accidente_trabajo_lesion_ocular",
+        "Demanda administrativa — lesión ocular (Buenos Aires)",
+        demandaAdmProvLesionOcularNuevoBaremo,
+      ),
+      model(
+        "PBA",
+        "rechazo_querato",
+        "Demanda administrativa — rechazo por queratopatía (Buenos Aires)",
+        demandaAdmRechazoQueratoProvNuevoBaremo,
+      ),
+      model(
+        "PBA",
+        "rechazo_prov",
+        "Demanda administrativa — rechazo (modelo PROV, Buenos Aires)",
+        demandaRechazoProvNuevoBaremo,
+      ),
+      model(
+        "PBA",
+        "rechazo_accidente_prov",
+        "Demanda administrativa — rechazo por accidente (modelo PROV, Buenos Aires)",
+        demandaRechazoAccidenteProvNuevoBaremo,
+      ),
+      model(
+        "CABA",
+        "accidente_trabajo",
+        "Demanda administrativa — accidente de trabajo (CABA)",
+        demandaAdmAccidenteCabaNuevoBaremo,
+      ),
+      model(
+        "CABA",
+        "accidente_trabajo_lesion_ocular",
+        "Demanda administrativa — lesión ocular (CABA)",
+        demandaAdmCabaLesionOcularNuevoBaremo,
+      ),
+      model(
+        "CABA",
+        "rechazo_querato",
+        "Demanda administrativa — rechazo por queratopatía (CABA)",
+        demandaAdmRechazoQueratoCabaNuevoBaremo,
+      ),
+      model(
+        "CABA",
+        "rechazo_caba",
+        "Demanda administrativa — rechazo (modelo CABA)",
+        demandaRechazoCabaModeloNuevoBaremo,
+      ),
+      model(
+        "CABA",
+        "rechazo_accidente_caba",
+        "Demanda administrativa — rechazo por accidente (modelo CABA)",
+        demandaRechazoAccidenteCabaNuevoBaremo,
+      ),
     ],
   }
 }
-

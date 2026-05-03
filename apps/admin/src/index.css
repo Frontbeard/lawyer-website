@@ -26,6 +26,8 @@
     --input: 220 20% 90%;
     --ring: 220 57% 85%;
     --radius: 1rem;
+    --section-gradient-1: 220 57% 85%;
+    --section-gradient-2: 220 20% 95%;
   }
 
   .dark {
@@ -48,6 +50,8 @@
     --border: 215 39% 31%;
     --input: 215 39% 31%;
     --ring: 215 39% 31%;
+    --section-gradient-1: 215 39% 31%;
+    --section-gradient-2: 212 50% 19%;
   }
 }
 
@@ -55,9 +59,78 @@
   * {
     @apply border-border;
   }
+  html {
+    font-size: 16px;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.025em;
+    font-weight: 600;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg dark:bg-[#17304a]/80 dark:border-[#304a6e]/20;
+  }
+
+  .section-gradient {
+    @apply bg-gradient-to-b from-[#c0d0ef]/50 to-[#f0f2f4] dark:from-[#304a6e]/50 dark:to-[#17304a];
+  }
+
+  /* Espacio para barras fijas en iOS con notch / home indicator */
+  .safe-area-pb {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  /** Vista previa demanda: menos margen en móvil para que quepa mejor al hacer scroll horizontal */
+  @media (max-width: 639px) {
+    .demand-paper-sheet {
+      padding: 10px 12px 14px !important;
+      font-size: 10pt !important;
+    }
+  }
+}
+
+/* Inline yellow inputs in the document paper auto-grow with content */
+.demand-field {
+  field-sizing: content;
+  min-width: 4ch;
+  max-width: 100%;
+}
+.demand-field::placeholder {
+  opacity: 0.65;
 }
 

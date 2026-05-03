@@ -2,15 +2,56 @@ import type { DemandModel, DemandTemplateState, Jurisdiction, LawyerProfile } fr
 import { seedState } from "./seed"
 
 const STORAGE_KEY = "mr_admin_templates_v1"
+const FIELD_VALUES_KEY = "mr_admin_field_values_v1"
+
+function readAllFieldValues(): Record<string, Record<string, string>> {
+  try {
+    const raw = localStorage.getItem(FIELD_VALUES_KEY)
+    if (!raw) return {}
+    return JSON.parse(raw) as Record<string, Record<string, string>>
+  } catch {
+    return {}
+  }
+}
+
+export function loadFieldValues(modelId: string): Record<string, string> {
+  return readAllFieldValues()[modelId] ?? {}
+}
+
+export function saveFieldValues(modelId: string, values: Record<string, string>) {
+  const all = readAllFieldValues()
+  all[modelId] = values
+  localStorage.setItem(FIELD_VALUES_KEY, JSON.stringify(all))
+}
+
+export function clearFieldValues(modelId: string) {
+  const all = readAllFieldValues()
+  delete all[modelId]
+  localStorage.setItem(FIELD_VALUES_KEY, JSON.stringify(all))
+}
+
+/** Reemplaza modelos por el catálogo del seed (p. ej. vacío) y conserva abogados. */
+function migrateTemplatesKeepLawyers(parsed: DemandTemplateState): DemandTemplateState {
+  const fresh = seedState()
+  return {
+    ...fresh,
+    lawyers: parsed.lawyers,
+  }
+}
 
 export function loadState(): DemandTemplateState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return seedState()
     const parsed = JSON.parse(raw) as DemandTemplateState
-    if (!parsed || parsed.version !== 1) return seedState()
-    if (!parsed.models?.length) return seedState()
+    if (!parsed || typeof parsed.version !== "number") return seedState()
     if (!parsed.lawyers?.CABA || !parsed.lawyers?.PBA) return seedState()
+    if (!Array.isArray(parsed.models)) return seedState()
+    if (parsed.version < 26) {
+      const next = migrateTemplatesKeepLawyers(parsed)
+      saveState(next)
+      return next
+    }
     return parsed
   } catch {
     return seedState()
